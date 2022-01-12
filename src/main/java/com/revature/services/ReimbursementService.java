@@ -1,8 +1,10 @@
 package com.revature.services;
 
 import com.revature.models.Reimbursement;
+import com.revature.models.Reimbursement;
 import com.revature.models.Status;
 import com.revature.models.User;
+import com.revature.repositories.ReimbursementDAO;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +38,7 @@ public class ReimbursementService {
      *     <li>Must throw exception if persistence is unsuccessful</li>
      * </ul>
      *
-     * Note: unprocessedReimbursement will have a status of PENDING, a non-zero ID and amount, and a non-null Author.
+     * Note: unprocessedReimbursement will have a status of PENDING, a non-zero ID and Id, and a non-null Author.
      * The Resolver should be null. Additional fields may be null.
      * After processing, the reimbursement will have its status changed to either APPROVED or DENIED.
      */
@@ -50,4 +52,39 @@ public class ReimbursementService {
     public List<Reimbursement> getReimbursementsByStatus(Status status) {
         return Collections.emptyList();
     }
+    
+ReimbursementDAO rDAO = new ReimbursementDAO(); //so that I can use the methods from the ReimbursementDAO
+	
+	public List<Reimbursement> getReimbursements() {
+		
+		//get the List of Reimbursements by calling the DAO method that selects them from the database
+		List<Reimbursement> Reimbursements = rDAO.getReimbursement();
+		
+		//return the list of Reimbursements
+		return Reimbursements;
+	}
+	
+	public void addReimbursement(Reimbursement newReimbursement) {
+		
+		//take in the Reimbursement object sent from the menu and send it to the ReimbursementDAO to be inserted into the database
+		
+		//call the DAO method that inserts the new Reimbursement
+		rDAO.insertReimbursement(newReimbursement);
+	}
+
+	//This is only returning one object so it doesn't necessarily have to be a list...
+	public List<Reimbursement> getReimbursementById(int idInput) {
+		
+		List<Reimbursement> Reimbursement= rDAO.getReimbursementById(idInput);
+		
+		return Reimbursement;
+	}
+
+	public List<Reimbursement> getReimbursementsById(int id) {
+		
+		List<Reimbursement> Reimbursements = rDAO.getReimbursementById(id);
+		
+		return Reimbursements;
+	}
+	
 }
